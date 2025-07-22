@@ -1,0 +1,77 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**" # This will match pull requests targeting any branch
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        ocaml-compiler:
+          - 5.3.x
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          opam-repositories: |
+            default: https://github.com/ocaml/opam-repository.git
+            mbarbin: https://github.com/mbarbin/opam-repository.git
+      #     janestreet-bleeding: https://github.com/janestreet/opam-repository.git
+      #     janestreet-bleeding-external: https://github.com/janestreet/opam-repository.git#external-packages
+
+      # Setting `(implicit_transitive_deps VALUE)` conditionally based on the compiler version.
+      - name: Edit dune-project
+        run: opam exec -- ocaml .github/workflows/edit_dune_project_dot_ml "${{ matrix.ocaml-compiler }}"
+
+      - name: Install dependencies
+        run: opam install . --deps-only --with-doc --with-test --with-dev-setup
+
+      - name: Build
+        run: opam exec -- dune build @all @lint
+
+      - name: Run tests
+        run: |
+          mkdir $BISECT_DIR
+          opam exec -- dune runtest --instrument-with bisect_ppx
+        env:
+          BISECT_DIR: ${{ runner.temp }}/_bisect_ppx_data
+          BISECT_FILE: ${{ runner.temp }}/_bisect_ppx_data/data
+
+      - name: Send coverage report to Coveralls
+        run: opam exec -- bisect-ppx-report send-to Coveralls --coverage-path $BISECT_DIR
+        env:
+          BISECT_DIR: ${{ runner.temp }}/_bisect_ppx_data
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
+      # Before checking for uncommitted changes we need to restore changes
+      # potentially made to the dune-project file.
+      - name: Restore dune-project
+        run: git restore dune-project
+
+      - name: Check for uncommitted changes
+        run: git diff --exit-code
+
+      - name: Lint opam
+        uses: ocaml/setup-ocaml/lint-opam@v3
+
+      - name: Lint fmt
+        uses: ocaml/setup-ocaml/lint-fmt@v3
+
+      - name: Lint doc
+        uses: ocaml/setup-ocaml/lint-doc@v3

@@ -1,0 +1,10 @@
+(env
+ (dev
+  (odoc
+   (warnings fatal))))
+
+(mdx
+ (package print-table-dev)
+ (libraries print-table)
+ (files README.md)
+ (preludes prelude.txt))

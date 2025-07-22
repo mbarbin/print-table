@@ -1,0 +1,16 @@
+(library
+ (name print_table)
+ (public_name print-table)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
+ (instrumentation
+  (backend bisect_ppx))
+ (lint
+  (pps ppx_js_style -allow-let-operators -check-doc-comments))
+ (preprocess no_preprocessing))
+
+(mdx
+ (package print-table-dev)
+ (deps
+  (package print-table))
+ (files :standard - *.mli)
+ (preludes prelude.txt))
