@@ -10,6 +10,8 @@ module Style = struct
     | Fg_green
     | Fg_red
     | Fg_yellow
+    | Dim
+    | Underscore
 end
 
 module Cell = struct

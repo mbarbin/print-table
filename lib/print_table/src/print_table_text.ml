@@ -56,7 +56,9 @@ let to_string_non_empty ?(enable_style = true) t =
        | Default -> Buffer.add_string buffer (Box.pad text ~len:length ~align)
        | Fg_red -> add_colored_text "\027[31m"
        | Fg_green -> add_colored_text "\027[32m"
-       | Fg_yellow -> add_colored_text "\027[33m");
+       | Fg_yellow -> add_colored_text "\027[33m"
+       | Dim -> add_colored_text "\027[2m"
+       | Underscore -> add_colored_text "\027[4m");
       Buffer.add_char buffer ' ';
       Buffer.add_string buffer "│");
     Buffer.add_char buffer '\n'

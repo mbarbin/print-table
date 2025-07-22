@@ -16,6 +16,8 @@ module Style = struct
   let fg_green = Fg_green
   let fg_red = Fg_red
   let fg_yellow = Fg_yellow
+  let dim = Dim
+  let underscore = Underscore
 end
 
 module Cell = struct

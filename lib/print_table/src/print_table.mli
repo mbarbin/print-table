@@ -69,6 +69,8 @@ module Style : sig
   val fg_green : t
   val fg_red : t
   val fg_yellow : t
+  val dim : t
+  val underscore : t
 end
 
 module Cell : sig

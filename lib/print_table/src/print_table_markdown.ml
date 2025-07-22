@@ -46,7 +46,7 @@ let to_string_non_empty t =
       let { Print_table_ast.Cell.text; style } = cells.(i) in
       let () =
         match style with
-        | Default | Fg_green | Fg_red | Fg_yellow ->
+        | Default | Fg_green | Fg_red | Fg_yellow | Dim | Underscore ->
           (* There is no support for controlling colors in the GitHub Markdown
              syntax. We simply do not render them. *)
           ()

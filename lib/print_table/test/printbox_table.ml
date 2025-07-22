@@ -44,7 +44,8 @@ let of_print_table t =
                                | Default -> line text
                                | Fg_green -> line_with_style (Style.fg_color Green) text
                                | Fg_red -> line_with_style (Style.fg_color Red) text
-                               | Fg_yellow -> line_with_style (Style.fg_color Yellow) text)
+                               | Fg_yellow -> line_with_style (Style.fg_color Yellow) text
+                               | Dim | Underscore -> line text)
                           in
                           [ align ~h:align_h ~v:`Center (pad_cell box) ]))
                    ])))))

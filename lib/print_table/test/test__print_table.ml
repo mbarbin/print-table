@@ -92,44 +92,52 @@ let%expect_test "style" =
           ; "fg_green", Style.fg_green
           ; "fg_rd", Style.fg_red
           ; "fg_yellow", Style.fg_yellow
+          ; "dim", Style.dim
+          ; "underscore", Style.underscore
           ]
   in
   print_endline (Print_table.to_string_text print_table);
   [%expect
     {|
-    ┌───────────┬───────┐
-    │ Name      │ Style │
-    ├───────────┼───────┤
-    │ default   │ v     │
-    │ fg_green  │ [32mv    [0m │
-    │ fg_rd     │ [31mv    [0m │
-    │ fg_yellow │ [33mv    [0m │
-    └───────────┴───────┘
+    ┌────────────┬───────┐
+    │ Name       │ Style │
+    ├────────────┼───────┤
+    │ default    │ v     │
+    │ fg_green   │ [32mv    [0m │
+    │ fg_rd      │ [31mv    [0m │
+    │ fg_yellow  │ [33mv    [0m │
+    │ dim        │ [2mv    [0m │
+    │ underscore │ [4mv    [0m │
+    └────────────┴───────┘
     |}];
   (* GitHub Markdown. *)
   print_endline (Print_table.to_string_markdown print_table);
   [%expect
     {|
-    | Name      | Style |
-    |:----------|:------|
-    | default   | v     |
-    | fg_green  | v     |
-    | fg_rd     | v     |
-    | fg_yellow | v     |
+    | Name       | Style |
+    |:-----------|:------|
+    | default    | v     |
+    | fg_green   | v     |
+    | fg_rd      | v     |
+    | fg_yellow  | v     |
+    | dim        | v     |
+    | underscore | v     |
     |}];
   (* Ansi via Printbox. *)
   let printbox = Printbox_table.of_print_table print_table in
   print_endline (PrintBox_text.to_string printbox ^ "\n");
   [%expect
     {|
-    ┌───────────┬───────┐
-    │ Name      │ Style │
-    ├───────────┼───────┤
-    │ default   │ v     │
-    │ fg_green  │ [32mv[0m     │
-    │ fg_rd     │ [31mv[0m     │
-    │ fg_yellow │ [33mv[0m     │
-    └───────────┴───────┘
+    ┌────────────┬───────┐
+    │ Name       │ Style │
+    ├────────────┼───────┤
+    │ default    │ v     │
+    │ fg_green   │ [32mv[0m     │
+    │ fg_rd      │ [31mv[0m     │
+    │ fg_yellow  │ [33mv[0m     │
+    │ dim        │ v     │
+    │ underscore │ v     │
+    └────────────┴───────┘
     |}];
   ()
 ;;
