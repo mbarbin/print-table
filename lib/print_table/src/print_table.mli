@@ -69,6 +69,8 @@ module Style : sig
   val fg_green : t
   val fg_red : t
   val fg_yellow : t
+  val dim : t
+  val underscore : t
 end
 
 module Cell : sig
@@ -100,7 +102,7 @@ module Column : sig
       ['row] value represents an individual row in the table. *)
   type 'row t
 
-  (** [make ~header ?aligh f] declares a new column with [header]. The alignment
+  (** [make ~header ?align f] declares a new column with [header]. The alignment
       defaults to [Left]. [f] is the function that should take care and
       encapsulate the knowledge of how the contents for this [column] is
       extracted and created for a given [row]. It is not immediately called but

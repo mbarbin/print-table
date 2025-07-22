@@ -29,6 +29,7 @@ val of_print_table : Print_table_ast.t -> t
 
 (** [pad input ~len ~align] returns a new string with spaces either to the left,
     right or both so that it contains the original string at the specified
-    alignment. For example [pad "hello" 10 ~align:Right] is equivalent to
-    [String.make 5 ' ' ^ "hello"]. *)
-val pad : string -> len:int -> align:Print_table_ast.Align.t -> string
+    alignment. For example [pad "hello" ~len:10 ~align:Right] is equivalent to
+    [String.make 5 ' ' ^ "hello"]. [ansi_code] may be supplied to surround the
+    input text by ansi codes. *)
+val pad : ?ansi_code:int -> string -> len:int -> align:Print_table_ast.Align.t -> string

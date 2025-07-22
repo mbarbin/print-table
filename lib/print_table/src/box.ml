@@ -36,17 +36,22 @@ let of_print_table (Print_table_ast.T { columns; rows }) =
   { columns }
 ;;
 
-let pad s ~len ~align =
-  let slen = String.length s in
+let pad ?ansi_code text ~len ~align =
+  let slen = String.length text in
+  let text =
+    match ansi_code with
+    | None -> text
+    | Some ansi_code -> Printf.sprintf "\027[%dm%s\027[0m" ansi_code text
+  in
   if slen >= len
-  then s
+  then text
   else (
     let pad = String.make (len - slen) ' ' in
     match (align : Print_table_ast.Align.t) with
-    | Left -> s ^ pad
-    | Right -> pad ^ s
+    | Left -> text ^ pad
+    | Right -> pad ^ text
     | Center ->
       let left = (len - slen) / 2 in
       let right = len - slen - left in
-      String.make left ' ' ^ s ^ String.make right ' ')
+      String.make left ' ' ^ text ^ String.make right ' ')
 ;;
