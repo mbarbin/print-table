@@ -2,6 +2,8 @@
 
 [![CI Status](https://github.com/mbarbin/print-table/workflows/ci/badge.svg)](https://github.com/mbarbin/print-table/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/mbarbin/print-table/badge.svg?branch=main)](https://coveralls.io/github/mbarbin/print-table?branch=main)
+[![Deploy Doc Status](https://github.com/mbarbin/print-table/workflows/deploy-doc/badge.svg)](https://github.com/mbarbin/print-table/actions/workflows/deploy-doc.yml)
+[![OCaml-CI Build Status](https://img.shields.io/endpoint?url=https://ocaml.ci.dev/badge/mbarbin/print-table/main&logo=ocaml)](https://ocaml.ci.dev/github/mbarbin/print-table)
 
 Print_table provides a minimal library for rendering text tables with Unicode box-drawing characters and optional ANSI colors:
 
