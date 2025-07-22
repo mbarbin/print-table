@@ -47,18 +47,16 @@ let to_string_non_empty ?(enable_style = true) t =
       (* Thanks to invariant from Box: all cells have the same length. *)
       let { Print_table_ast.Cell.text; style } = cells.(i) in
       Buffer.add_char buffer ' ';
-      let add_colored_text color_code =
-        Buffer.add_string buffer color_code;
-        Buffer.add_string buffer (Box.pad text ~len:length ~align);
-        Buffer.add_string buffer "\027[0m"
+      let add_colored_text ~ansi_code =
+        Buffer.add_string buffer (Box.pad text ~ansi_code ~len:length ~align)
       in
       (match if enable_style then style else Print_table_ast.Style.Default with
        | Default -> Buffer.add_string buffer (Box.pad text ~len:length ~align)
-       | Fg_red -> add_colored_text "\027[31m"
-       | Fg_green -> add_colored_text "\027[32m"
-       | Fg_yellow -> add_colored_text "\027[33m"
-       | Dim -> add_colored_text "\027[2m"
-       | Underscore -> add_colored_text "\027[4m");
+       | Fg_red -> add_colored_text ~ansi_code:31
+       | Fg_green -> add_colored_text ~ansi_code:32
+       | Fg_yellow -> add_colored_text ~ansi_code:33
+       | Dim -> add_colored_text ~ansi_code:2
+       | Underscore -> add_colored_text ~ansi_code:4);
       Buffer.add_char buffer ' ';
       Buffer.add_string buffer "│");
     Buffer.add_char buffer '\n'
