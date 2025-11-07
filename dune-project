@@ -52,10 +52,6 @@
    (>= v0.16))
   (ppx_here
    (>= v0.16))
-  (ppx_sexp_conv
-   (>= v0.16))
-  (ppx_sexp_value
-   (>= v0.16))
   (ppxlib
    (>= 0.33))
   (printbox
@@ -92,10 +88,6 @@
   (ppx_here
    (>= v0.17))
   (ppx_js_style
-   (>= v0.17))
-  (ppx_sexp_conv
-   (>= v0.17))
-  (ppx_sexp_value
    (>= v0.17))
   (ppxlib
    (>= 0.33))
