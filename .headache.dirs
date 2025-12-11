@@ -1,5 +1,5 @@
 # List of directories for headache.sh
 # Add new directories below. Lines starting with '#' are ignored.
-lib/print_table/src
-lib/print_table/test
-lib/print_table/test/bin
+src
+test/bin
+test/expect
