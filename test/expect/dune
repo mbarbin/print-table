@@ -1,6 +1,6 @@
 (library
  (name print_table_test)
- (public_name print-table-tests.print_table_test)
+ (package print-table-tests)
  (flags
   :standard
   -w
