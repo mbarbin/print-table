@@ -42,18 +42,12 @@
  (depends
   (ocaml
    (>= 4.14))
-  (base
-   (>= v0.16))
-  (expect_test_helpers_core
-   (>= v0.16))
-  (ppx_compare
-   (>= v0.16))
   (ppx_expect
-   (>= v0.16))
-  (ppx_here
    (>= v0.16))
   (ppxlib
    (>= 0.33))
+  (print-table
+   (= :version))
   (printbox
    (>= 0.12))
   (printbox-md
@@ -65,32 +59,27 @@
 
 (package
  (name print-table-dev)
- (synopsis
-  "Package to regroup dev targets for the pplumbing project, documentation, and more")
- (allow_empty) ; The package is attached to stanza in doc/ however dune doesn't see it.
+ (synopsis "Package to regroup dev targets, documentation, and more")
+ (allow_empty)
  (depends
   (ocaml
    (>= 5.2))
   (ocamlformat
    (= 0.28.1))
-  (base
-   (>= v0.17))
   (bisect_ppx
    (>= 2.8.3))
-  (expect_test_helpers_core
-   (>= v0.17))
   (mdx
    (>= 2.4))
-  (ppx_compare
-   (>= v0.17))
   (ppx_expect
-   (>= v0.17))
-  (ppx_here
    (>= v0.17))
   (ppx_js_style
    (>= v0.17))
   (ppxlib
    (>= 0.33))
+  (print-table
+   (= :version))
+  (print-table-tests
+   (= :version))
   (printbox
    (>= 0.12))
   (printbox-md
@@ -100,6 +89,4 @@
   (uutf
    (>= 1.0.4))
   (sherlodoc
-   (and
-    :with-doc
-    (>= 0.2)))))
+   (>= 0.2))))
