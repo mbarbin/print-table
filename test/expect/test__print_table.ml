@@ -4,6 +4,8 @@
 (*  SPDX-License-Identifier: ISC                                            *)
 (****************************************************************************)
 
+open! Import
+
 let%expect_test "no columns!" =
   let print_table = Print_table.make ~columns:[] ~rows:[] in
   (* Ansi *)
@@ -29,7 +31,7 @@ let%expect_test "no columns!" =
     |}];
   let with_md_config ~config =
     let md = PrintBox_md.to_string config printbox in
-    print_endline (String.strip md ^ "\n")
+    print_endline (String.trim md ^ "\n")
   in
   (* Markdown via Printbox - default config. *)
   with_md_config ~config:PrintBox_md.Config.default;
@@ -51,7 +53,7 @@ let%expect_test "example" =
     Print_table.O.
       [ Column.make ~header:"Name" (fun (name, _) -> Cell.text name)
       ; Column.make ~header:"Score" ~align:Right (fun (_, score) ->
-          Cell.text (Int.to_string_hum score))
+          Cell.text (Int.to_string score))
       ]
   in
   let test rows =
@@ -144,13 +146,13 @@ let%expect_test "style" =
 
 let%expect_test "cell" =
   let cell = Print_table.Cell.empty in
-  require [%here] (Print_table.Cell.is_empty cell);
+  require (Print_table.Cell.is_empty cell);
   [%expect {||}];
   let cell = Print_table.Cell.text "" in
-  require [%here] (Print_table.Cell.is_empty cell);
+  require (Print_table.Cell.is_empty cell);
   [%expect {||}];
   let cell = Print_table.Cell.text "not empty!" in
-  require [%here] (not (Print_table.Cell.is_empty cell));
+  require (not (Print_table.Cell.is_empty cell));
   [%expect {||}];
   ()
 ;;
@@ -163,7 +165,7 @@ let%expect_test "print_table" =
       ; Column.make ~header:"Score" ~align:Right (fun (_, score) ->
           Cell.text
             ~style:(if score < 10 then Style.fg_red else Style.default)
-            (Int.to_string_hum score))
+            (Int.to_string score))
       ; Column.make ~header:"Stars" ~align:Center (fun (_, score) ->
           Cell.text (if score > 40 then "***" else if score > 10 then "*" else ""))
       ]
@@ -194,7 +196,7 @@ let%expect_test "print_table" =
     |}];
   let with_md_config ~config =
     let md = PrintBox_md.to_string config printbox in
-    print_endline (String.strip md ^ "\n")
+    print_endline (String.trim md ^ "\n")
   in
   (* Markdown via Printbox - default config. *)
   with_md_config ~config:PrintBox_md.Config.default;
@@ -271,7 +273,7 @@ let%expect_test "print_table" =
     |}];
   let with_md_config ~config =
     let md = PrintBox_md.to_string config printbox in
-    print_endline (String.strip md ^ "\n")
+    print_endline (String.trim md ^ "\n")
   in
   (* Markdown via Printbox - default config. *)
   with_md_config ~config:PrintBox_md.Config.default;

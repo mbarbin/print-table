@@ -8,6 +8,8 @@
    from [Print_table] to markdown without [PrintBox] intermediary. Keeping for
    experimentation (test dependencies only). *)
 
+open! Import
+
 type t = PrintBox.t
 
 let of_print_table t =
@@ -85,7 +87,7 @@ let to_md_line s =
 
 let to_string_markdown box =
   let ansi = PrintBox_text.to_string box in
-  let lines = String.split_lines ansi in
+  let lines = String.split_on_char ansi ~sep:'\n' in
   let lines = lines |> List.map ~f:to_md_line in
   String.concat ~sep:"\n" lines
 ;;
