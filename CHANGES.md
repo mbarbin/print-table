@@ -1,3 +1,9 @@
+## 0.1.2 (2026-01-25)
+
+### Fixed
+
+- Unify dune lang of `dune-workspace` with `dune-project` to fix opam CI (@mbarbin).
+
 ## 0.1.1 (2026-01-24)
 
 This patch release brings internal changes only, with an improvement to the distribution process (immutable releases).
