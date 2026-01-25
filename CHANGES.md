@@ -1,3 +1,9 @@
+## 0.1.3 (2026-01-25)
+
+### Fixed
+
+- Remove root `dune-workspace` file creating `dune.3.17.2` build issues (@mbarbin).
+
 ## 0.1.2 (2026-01-25)
 
 ### Fixed
