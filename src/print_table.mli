@@ -119,13 +119,13 @@ val make : columns:'a Column.t list -> rows:'a list -> t
     a piece of code that creates the columns. For example:
 
     {[
-      let columns : (string * int) Print_table.Column.t list =
-        Print_table.O.
-          [ Column.make ~header:"Name" (fun (name, _) -> Cell.text name)
-          ; Column.make ~header:"Score" ~align:Right (fun (_, score) ->
-              Cell.text (Int.to_string score))
-          ]
-      ;;
+    let columns : (string * int) Print_table.Column.t list =
+      Print_table.O.
+        [ Column.make ~header:"Name" (fun (name, _) -> Cell.text name)
+        ; Column.make ~header:"Score" ~align:Right (fun (_, score) ->
+            Cell.text (Int.to_string score))
+        ]
+    ;;
     ]} *)
 
 module O : sig
