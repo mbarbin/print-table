@@ -6,6 +6,7 @@
 (rule
  (target README.md.gen)
  (package print-table-dev)
+ (enabled_if %{bin-available:mdexp})
  (action
   (with-stdout-to
    %{target}
@@ -14,6 +15,7 @@
 (rule
  (package print-table-dev)
  (alias runtest)
+ (enabled_if %{bin-available:mdexp})
  (action
   (diff README.md README.md.gen)))
 
