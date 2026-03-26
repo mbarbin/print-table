@@ -22,7 +22,7 @@
 (library
  (name readme)
  (package print-table-dev)
- (flags :standard -w +a-4-40-41-42-44-45-48-66-70 -warn-error +a)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
  (libraries print_table)
  (inline_tests)
  (instrumentation
