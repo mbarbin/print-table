@@ -1,3 +1,9 @@
+(****************************************************************************)
+(*  print-table - Simple Unicode/ANSI and Markdown text table rendering     *)
+(*  SPDX-FileCopyrightText: 2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: ISC                                            *)
+(****************************************************************************)
+
 (* @mdexp
 
    # print-table
