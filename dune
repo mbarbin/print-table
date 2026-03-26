@@ -3,8 +3,31 @@
   (odoc
    (warnings fatal))))
 
-(mdx
+(rule
+ (target README.md.gen)
  (package print-table-dev)
- (libraries print-table)
- (files README.md)
- (preludes prelude.txt))
+ (enabled_if %{bin-available:mdexp})
+ (action
+  (with-stdout-to
+   %{target}
+   (run mdexp pp %{dep:gen_readme.ml}))))
+
+(rule
+ (package print-table-dev)
+ (alias runtest)
+ (enabled_if %{bin-available:mdexp})
+ (action
+  (diff README.md README.md.gen)))
+
+(library
+ (name readme)
+ (package print-table-dev)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66-70 -warn-error +a)
+ (libraries print_table)
+ (inline_tests)
+ (instrumentation
+  (backend bisect_ppx))
+ (lint
+  (pps ppx_js_style -allow-let-operators -check-doc-comments))
+ (preprocess
+  (pps ppx_expect)))

@@ -116,17 +116,8 @@ val make : columns:'a Column.t list -> rows:'a list -> t
 (** {2 Scope manipulation}
 
     The intended usage is for the module [Print_table.O] to be open locally near
-    a piece of code that creates the columns. For example:
-
-    {[
-    let columns : (string * int) Print_table.Column.t list =
-      Print_table.O.
-        [ Column.make ~header:"Name" (fun (name, _) -> Cell.text name)
-        ; Column.make ~header:"Score" ~align:Right (fun (_, score) ->
-            Cell.text (Int.to_string score))
-        ]
-    ;;
-    ]} *)
+    a piece of code that creates the columns. For an example, see the project's
+    README.md file. *)
 
 module O : sig
   module Align = Align
