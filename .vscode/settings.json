@@ -1,9 +1,21 @@
 {
     "cSpell.words": [
+        "Barbin",
+        "depexts",
+        "endline",
+        "gpatch",
         "janestreet",
+        "Mathieu",
+        "mbarbin",
+        "mdexp",
+        "ocamlformat",
         "odoc",
         "opam",
+        "ppxlib",
         "printbox",
+        "Printexc",
+        "runtest",
+        "sherlodoc",
         "Uchar",
         "Uutf"
     ]
