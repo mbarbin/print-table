@@ -4,6 +4,25 @@
 (*  SPDX-License-Identifier: ISC                                            *)
 (****************************************************************************)
 
+let markdown = ref false
+
+let () =
+  Arg.parse
+    [ ( "--markdown"
+      , Arg.Set markdown
+      , " Print tables using the Markdown renderer instead of the default text one" )
+    ]
+    (fun arg -> raise (Arg.Bad (Printf.sprintf "unexpected argument %S" arg)))
+    "print-table-tests-main [--markdown]"
+;;
+
+let render_table print_table =
+  print_string
+    (if !markdown
+     then Print_table.to_string_markdown print_table
+     else Print_table.to_string_text print_table)
+;;
+
 let () =
   print_endline "style";
   let columns =
@@ -25,7 +44,7 @@ let () =
           ; "underscore", Style.underscore
           ]
   in
-  print_string (Print_table.to_string_text print_table);
+  render_table print_table;
   ()
 ;;
 
@@ -66,7 +85,7 @@ let () =
         ; "€", "symbol"
         ]
   in
-  print_string (Print_table.to_string_text print_table);
+  render_table print_table;
   ()
 ;;
 
@@ -80,7 +99,7 @@ let () =
         ; "e" ^ "\u{0301}", "combining mark: 2 codepoints (e + ´) render as 1 column"
         ]
   in
-  print_string (Print_table.to_string_text print_table);
+  render_table print_table;
   ()
 ;;
 
@@ -103,6 +122,6 @@ let () =
         ; "e" ^ "\u{0301}", Some 1, "combining mark: 2 codepoints, but 1 column"
         ]
   in
-  print_string (Print_table.to_string_text print_table);
+  render_table print_table;
   ()
 ;;
