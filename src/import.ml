@@ -16,3 +16,7 @@ module List = struct
     | _ :: _ -> false
   ;;
 end
+
+module String = struct
+  include StringLabels
+end

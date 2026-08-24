@@ -23,9 +23,9 @@ end
 module Cell = struct
   include Print_table_ast.Cell
 
-  let empty = { style = Style.default; text = "" }
+  let empty = { style = Style.default; text = ""; width = None }
   let is_empty t = String.length t.text = 0
-  let text ?(style = Style.default) text = { style; text }
+  let text ?(style = Style.default) ?width text = { style; text; width }
 end
 
 module Align = struct

@@ -26,7 +26,9 @@ let of_print_table t =
               | Right -> `Right
             in
             let cells = List.map rows ~f:make_cell in
-            if List.for_all cells ~f:(fun { style = _; text } -> String.is_empty text)
+            if
+              List.for_all cells ~f:(fun { style = _; text; width = _ } ->
+                String.is_empty text)
             then None
             else
               Some
@@ -34,7 +36,10 @@ let of_print_table t =
                    [ align ~h:align_h ~v:`Center (pad_cell (line header))
                    ; grid_l
                        ~bars:false
-                       (List.map cells ~f:(fun { style; text } ->
+                       (List.map cells ~f:(fun { style; text; width = _ } ->
+                          (* [width] is Print_table's own escape hatch for its
+                             UTF-8 measurement; PrintBox does its own
+                             measurement of [text] and has no use for it. *)
                           let box =
                             (* When encountering an empty cell, [grid_l] shifts
                                the remaining rows up one level, which creates a

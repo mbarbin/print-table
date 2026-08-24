@@ -18,6 +18,7 @@ module Cell = struct
   type t =
     { style : Style.t
     ; text : string
+    ; width : int option
     }
 end
 

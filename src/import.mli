@@ -13,3 +13,7 @@ module List : sig
 
   val is_empty : _ t -> bool
 end
+
+module String : sig
+  include module type of StringLabels
+end

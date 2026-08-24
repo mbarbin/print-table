@@ -8,7 +8,7 @@ open! Import
 
 type t = Print_table_ast.t
 
-let repeat c n = List.init ~len:n ~f:(fun _ -> c) |> String.concat ""
+let repeat c n = List.init ~len:n ~f:(fun _ -> c) |> String.concat ~sep:""
 
 let to_string_non_empty ?(enable_style = true) t =
   let box = Box.of_print_table t in
@@ -45,13 +45,13 @@ let to_string_non_empty ?(enable_style = true) t =
     Buffer.add_string buffer "│";
     Array.iter columns ~f:(fun { Box.Column.header = _; align; cells; length } ->
       (* Thanks to invariant from Box: all cells have the same length. *)
-      let { Print_table_ast.Cell.text; style } = cells.(i) in
+      let { Print_table_ast.Cell.text; style; width } = cells.(i) in
       Buffer.add_char buffer ' ';
       let add_colored_text ~ansi_code =
-        Buffer.add_string buffer (Box.pad text ~ansi_code ~len:length ~align)
+        Buffer.add_string buffer (Box.pad text ?width ~ansi_code ~len:length ~align)
       in
       (match if enable_style then style else Print_table_ast.Style.Default with
-       | Default -> Buffer.add_string buffer (Box.pad text ~len:length ~align)
+       | Default -> Buffer.add_string buffer (Box.pad text ?width ~len:length ~align)
        | Fg_red -> add_colored_text ~ansi_code:31
        | Fg_green -> add_colored_text ~ansi_code:32
        | Fg_yellow -> add_colored_text ~ansi_code:33
