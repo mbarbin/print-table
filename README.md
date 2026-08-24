@@ -78,6 +78,25 @@ padding in the source, so wide characters, combining marks and
 multi-codepoint emoji are typically displayed correctly there regardless
 of this library's own column measurement.
 
+For example, here's a two-column table using two of the "not supported"
+samples above, handwritten directly into this README as raw Markdown
+with no padding at all -- not produced by print-table:
+
+```markdown
+|Symbol|Rendering|
+|-|-|
+|日|✅|
+|é|✅|
+```
+
+GitHub still renders it perfectly, because it lays out the columns
+itself from the parsed cells, padding or no padding:
+
+|Symbol|Rendering|
+|-|-|
+|日|✅|
+|é|✅|
+
 For `to_string_text` (or a fenced-code-block `to_string_markdown`), where
 this does matter, `Cell.text`'s optional `~width` argument is an escape
 hatch: pass the on-screen column count yourself and it overrides the
