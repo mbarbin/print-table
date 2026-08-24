@@ -1,13 +1,13 @@
-## Unreleased
+## 0.1.4 (unreleased)
 
 ### Added
 
-- Document the UTF-8 encoding supported for cell and header text, and which multi-byte characters are not correctly measured for column alignment (@mbarbin).
-- Add an optional `~width` argument to `Cell.text`, letting callers override the on-screen width used for alignment -- an escape hatch for content the library's own UTF-8 measurement gets wrong (@mbarbin).
+- Document the UTF-8 encoding supported for cell and header text, and which multi-byte characters are not correctly measured for column alignment (#17, @mbarbin).
+- Add an optional `~width` argument to `Cell.text`, letting callers override the on-screen width used for alignment -- an escape hatch for content the library's own UTF-8 measurement gets wrong (#17, @mbarbin).
 
 ### Fixed
 
-- Measure and pad cells by UTF-8 codepoint count rather than byte count, fixing column/border misalignment caused by multi-byte characters such as accented letters and symbols (@mbarbin).
+- Measure and pad cells by UTF-8 codepoint count rather than byte count, fixing column/border misalignment caused by multi-byte characters such as accented letters and symbols (#17, @mbarbin).
 
 ## 0.1.3 (2026-01-25)
 
