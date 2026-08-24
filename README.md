@@ -57,6 +57,32 @@ which is rendered natively by GitHub like this:
 | Alice |    10 |
 | Bob   |     3 |
 
+## Encoding
+
+Cell and header text is expected to be valid UTF-8. Column widths are
+computed by counting Unicode codepoints, on the assumption that each
+codepoint occupies exactly one column in a monospace font or terminal.
+This holds for ASCII, accented Latin letters, Greek and Cyrillic letters,
+and narrow symbols such as `✓`, `★`, `→` or `€`, but not for East-Asian
+"fullwidth" characters, combining marks, or multi-codepoint grapheme
+clusters such as some emoji sequences -- see the `print_table.mli` for
+details, and `test/expect/test__print_table.ml` for examples of what is,
+and isn't, correctly measured.
+
+This caveat is about the literal characters produced by `to_string_text`
+and by `to_string_markdown`'s source, as read verbatim in a monospace
+font. It doesn't apply to how `to_string_markdown`'s output looks once
+rendered by a Markdown engine: GitHub (and other conformant renderers)
+lay out table columns from the parsed cell contents rather than from the
+padding in the source, so wide characters, combining marks and
+multi-codepoint emoji are typically displayed correctly there regardless
+of this library's own column measurement.
+
+For `to_string_text` (or a fenced-code-block `to_string_markdown`), where
+this does matter, `Cell.text`'s optional `~width` argument is an escape
+hatch: pass the on-screen column count yourself and it overrides the
+automatic measurement for that cell.
+
 ## Code Documentation
 
 The code documentation of the latest release is built with `odoc` and

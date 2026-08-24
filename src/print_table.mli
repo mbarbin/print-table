@@ -30,7 +30,45 @@
          | Bob   |     3 |
         v}
      }
-    } *)
+    }
+
+    {1 Encoding}
+
+    Cell and header text is expected to be valid UTF-8. Column widths are
+    computed by counting Unicode codepoints, on the assumption that each
+    codepoint occupies exactly one column when displayed in a monospace font
+    or terminal. This holds for the text this library is designed to render:
+    ASCII, accented Latin letters, Greek and Cyrillic letters, and narrow
+    symbols such as [✓], [★], [→] or [€].
+
+    It does not hold for:
+    - East-Asian "fullwidth" characters (for example CJK ideographs), which
+      occupy two columns per codepoint rather than one;
+    - combining marks (for example a base letter followed by a combining
+      accent), which occupy zero columns of their own;
+    - multi-codepoint grapheme clusters, such as emoji joined with
+      zero-width joiners or followed by variation selectors, which render as
+      a single glyph made of several codepoints.
+
+    Cells holding such text are still rendered without raising, but the
+    resulting columns and borders may not line up. See the ["utf8 width"]
+    tests in [test/expect/test__print_table.ml] for examples of what is, and
+    isn't, correctly measured.
+
+    This caveat is about the literal characters this library produces, as
+    read verbatim in a monospace font (which is what [to_string_text] is
+    for, and what [to_string_markdown]'s source looks like e.g. inside a
+    fenced code block). It doesn't apply to how [to_string_markdown]'s
+    output looks once rendered by a Markdown engine: GitHub (and other
+    conformant renderers) lay out table columns from the parsed cell
+    contents rather than from the padding in the source, so wide characters,
+    combining marks and multi-codepoint emoji are typically displayed
+    correctly there regardless of this library's own column measurement.
+
+    For [to_string_text] (or a fenced-code-block [to_string_markdown]),
+    where this does matter, [Cell.text]'s optional [~width] argument is an
+    escape hatch: pass the on-screen column count yourself and it overrides
+    the automatic measurement for that cell. *)
 
 (** A [t] is an immutable value representing a table ready to be rendered. *)
 type t
@@ -50,7 +88,10 @@ val to_string_text : ?enable_style:bool -> t -> string
     Note that because we couldn't find a way to render to GitHub in a way that
     support the color output, this printer ignores all [Style.t] settings and
     behaves as if each cell was created with [Style.default]. This returns the
-    empty string if the table has no columns or no rows. *)
+    empty string if the table has no columns or no rows. The generated source
+    is padded for readability but a Markdown renderer computes its own column
+    layout, so the "Encoding" caveats above about literal column alignment do
+    not carry over to the rendered table. *)
 val to_string_markdown : t -> string
 
 (** {1 Builders} *)
@@ -83,9 +124,21 @@ module Cell : sig
       [empty] or it was created with [text] on an empty string input. *)
   val is_empty : t -> bool
 
-  (** [text ?style contents] is the way to create a cell with the given style
-      and contents. *)
-  val text : ?style:Style.t -> string -> t
+  (** [text ?style ?width contents] is the way to create a cell with the given
+      style and contents. [contents] is expected to be valid UTF-8; see the
+      "Encoding" section above for what is and isn't correctly measured when
+      computing column widths.
+
+      [width], when supplied, is the number of terminal columns [contents]
+      occupies, and overrides the library's own codepoint-based measurement
+      for this cell. This is an escape hatch for the cases the "Encoding"
+      section calls out as unsupported: if [contents] holds, say, East-Asian
+      wide characters or an emoji sequence, and the caller can compute (or
+      already knows) how many columns it actually takes up on screen, passing
+      it here restores correct alignment without this library having to grow
+      a dependency on a Unicode width table. Defaults to [None], i.e. the
+      automatic measurement described in "Encoding". *)
+  val text : ?style:Style.t -> ?width:int -> string -> t
 end
 
 module Align : sig

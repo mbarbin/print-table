@@ -43,7 +43,7 @@ let to_string_non_empty t =
     Buffer.add_char buffer '|';
     Array.iter columns ~f:(fun { Box.Column.header = _; align; cells; length } ->
       (* Thanks to invariant from Box: all cells have the same length. *)
-      let { Print_table_ast.Cell.text; style } = cells.(i) in
+      let { Print_table_ast.Cell.text; style; width } = cells.(i) in
       let () =
         match style with
         | Default | Fg_green | Fg_red | Fg_yellow | Dim | Underscore ->
@@ -52,7 +52,7 @@ let to_string_non_empty t =
           ()
       in
       Buffer.add_char buffer ' ';
-      Buffer.add_string buffer (Box.pad text ~len:length ~align);
+      Buffer.add_string buffer (Box.pad text ?width ~len:length ~align);
       Buffer.add_char buffer ' ';
       Buffer.add_char buffer '|');
     Buffer.add_char buffer '\n'

@@ -20,9 +20,13 @@ module Style : sig
 end
 
 module Cell : sig
+  (** [width], when set, is the number of terminal columns [text] occupies,
+      overriding the library's own UTF-8 codepoint-based measurement. See
+      [Print_table.Cell.text]. *)
   type t =
     { style : Style.t
     ; text : string
+    ; width : int option
     }
 end
 

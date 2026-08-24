@@ -7,7 +7,9 @@
 (** An intermediate data structure used in the rendering of text tables. *)
 
 module Column : sig
-  (** [length] is the number of characters of the cell within the column that
+  (** [length] is the number of columns (each cell's [Print_table_ast.Cell.width],
+      or, absent that, its text counted in Unicode codepoints -- see
+      [Print_table]'s "Encoding" section) of the cell within the column that
       takes up the most space. It is used to pad the rest of the cells in the
       column that have a shorter text contents to display in their respective
       cell. *)
@@ -31,5 +33,14 @@ val of_print_table : Print_table_ast.t -> t
     right or both so that it contains the original string at the specified
     alignment. For example [pad "hello" ~len:10 ~align:Right] is equivalent to
     [String.make 5 ' ' ^ "hello"]. [ansi_code] may be supplied to surround the
-    input text by ansi codes. *)
-val pad : ?ansi_code:int -> string -> len:int -> align:Print_table_ast.Align.t -> string
+    input text by ansi codes. [len] and [input]'s width are both counted in
+    Unicode codepoints, not bytes, unless [width] is supplied, in which case
+    it is used as [input]'s width instead of measuring it (see
+    [Print_table]'s "Encoding" section). *)
+val pad
+  :  ?ansi_code:int
+  -> ?width:int
+  -> string
+  -> len:int
+  -> align:Print_table_ast.Align.t
+  -> string
